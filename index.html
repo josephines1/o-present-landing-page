@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Open Source Seamless Attendance with Geo-Photo Verification</title>
-
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kelola Kehadiran dengan Mudah dengan O-Present</title>
     <meta
       name="description"
       content="Download Website Presensi Online dengan Fitur GPS dan Foto Selfie"
@@ -19,293 +18,651 @@
       href="https://josephines1.github.io/o-present-landing-page/"
     />
 
-    <!-- Bootstrap -->
+    <!-- CDN Alpine.js -->
+    <script src="//unpkg.com/alpinejs" defer></script>
+
+    <!-- CDN Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Favicon -->
     <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-      crossorigin="anonymous"
+      rel="shortcut icon"
+      href="./assets/img/logo.png"
+      type="image/x-icon"
     />
 
-    <!-- Font Awesome -->
+    <!-- Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
     />
 
-    <!-- My CSS -->
-    <link rel="stylesheet" href="css/style.css" />
+    <style>
+      * {
+        font-family: "Poppins", sans-serif;
+      }
 
-    <!-- Website Icon -->
-    <link rel="website icon" type="png" href="resources/img/logo.png" />
+      .loader {
+        width: 1.5rem;
+        aspect-ratio: 1;
+        border: 0.75rem solid #fff;
+        border-radius: 50%;
+        position: relative;
+        transform: rotate(45deg);
+      }
+
+      .loader::before {
+        content: "";
+        position: absolute;
+        inset: -0.75rem;
+        border-radius: 50%;
+        border: 0.75rem solid #1e3a8a;
+      }
+
+      .animate-loader::before {
+        animation: l18 5s infinite linear;
+      }
+
+      @keyframes l18 {
+        0% {
+          clip-path: polygon(50% 50%, 0 0, 0 0, 0 0, 0 0, 0 0);
+        }
+        25% {
+          clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 0, 100% 0, 100% 0);
+        }
+        50% {
+          clip-path: polygon(
+            50% 50%,
+            0 0,
+            100% 0,
+            100% 100%,
+            100% 100%,
+            100% 100%
+          );
+        }
+        75% {
+          clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 100%, 0 100%, 0 100%);
+        }
+        100% {
+          clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 100%, 0 100%, 0 0);
+        }
+      }
+
+      .loader-container {
+        position: relative;
+        width: 1.5rem;
+        aspect-ratio: 1;
+      }
+
+      .loader-background {
+        width: 100%;
+        aspect-ratio: 1;
+        border-radius: 50%;
+        border: 0.75rem solid transparent;
+        background-color: #1e3a8a;
+      }
+
+      .fitur-img.animate-zoomIn {
+        animation: zoomIn 5s ease-in-out infinite;
+      }
+
+      @keyframes zoomIn {
+        0%,
+        100% {
+          transform: scale(0);
+        }
+        20%,
+        95% {
+          transform: scale(1);
+        }
+      }
+    </style>
   </head>
-  <body>
-    <nav class="navbar">
-      <div class="container justify-content-center">
-        <h1>
-          <a class="navbar-brand d-flex align-items-center" href="#hero">
-            <img
-              src="resources/img/logo.png"
-              alt="Logo"
-              class="d-inline-block align-text-top img-logo"
-            />
-            O-Present
-          </a>
-        </h1>
-      </div>
-    </nav>
-
-    <section id="hero">
-      <div class="container p-5 mt-3">
-        <div class="row g-5 align-items-center hero-row">
-          <div class="col-md-6">
-            <h1 class="hero-title">
-              <span class="badge hero-title-badge">Open Source</span>
-              Seamless Attendance with Geo-Photo Verification
-            </h1>
-            <p>
-              Revolutionize your attendance management with our cutting-edge
-              online presence system, featuring real-time GPS tracking and
-              selfie verification for secure and efficient workforce monitoring.
-            </p>
-
-            <a
-              href="https://github.com/josephines1/o-present/archive/refs/heads/main.zip"
-              class="btn mt-4 button-download text-light"
+  <body class="leading-normal">
+    <!-- Header -->
+    <header>
+      <div
+        class="container mx-auto px-4 py-2.5 flex justify-between items-center"
+      >
+        <div class="logo flex items-center space-x-2">
+          <img
+            src="./assets/img/logo.png"
+            alt="O-Present"
+            width="50"
+            height="50"
+          />
+          <a href="." class="font-semibold text-lg text-blue-900">O-Present</a>
+        </div>
+        <nav>
+          <ul
+            class="hidden md:flex flex-row space-x-5 text-center items-center text-sm"
+          >
+            <li
+              class="hover:text-blue-600 transition-colors trans duration-300 ease-in-out"
             >
-              <i class="fa-solid fa-download"></i>
-              Download Source Code
-            </a>
-          </div>
-
-          <div class="col-md-6">
-            <img
-              src="resources/img/mock_up.png"
-              alt="O-Present"
-              class="img-mockup"
-            />
-          </div>
+              <a href="#tentang">Tentang</a>
+            </li>
+            <li
+              class="hover:text-blue-600 transition-colors trans duration-300 ease-in-out"
+            >
+              <a href="#fitur">Fitur</a>
+            </li>
+            <li
+              class="hover:text-blue-600 transition-colors trans duration-300 ease-in-out"
+            >
+              <a href="#kelebihan">Kelebihan</a>
+            </li>
+          </ul>
+        </nav>
+        <div class="cta flex items-center space-x-2">
+          <a
+            href="https://github.com/josephines1/o-present"
+            class="flex items-center space-x-2 font-medium text-blue-600 hover:bg-blue-50 py-4 px-4 md:py-2.5 rounded-full transition-[background] duration-300 text-sm"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              width="16"
+              height="16"
+              stroke="currentColor"
+              stroke-width="2"
+              fill="none"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="css-i6dzq1"
+            >
+              <path
+                d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"
+              ></path>
+            </svg>
+            <span class="hidden md:block">Source Code</span></a
+          >
+          <a
+            href="https://github.com/josephines1/o-present/archive/refs/heads/main.zip"
+            class="flex items-center space-x-2 font-medium text-white bg-blue-800 hover:bg-blue-900 py-4 px-4 md:py-2.5 rounded-full transition-[background] duration-300 text-sm"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              width="16"
+              height="16"
+              stroke="currentColor"
+              stroke-width="2"
+              fill="none"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="css-i6dzq1"
+            >
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            <span class="hidden md:block">Download</span></a
+          >
         </div>
       </div>
-    </section>
+    </header>
 
-    <section id="features" class="bg-primary-subtle mt-5 p-5">
-      <div class="container">
-        <h2 class="h2 text-center">
-          What are the <span class="title-span">Features?</span>
-        </h2>
-        <div class="row mt-5 g-3">
-          <div class="col-md-4 text-center">
-            <i class="fa-solid fa-map-location-dot feature-icon"></i>
-            <h4 class="h4 text-center">GPS-Based Employee Attendance</h4>
-            <p>
-              Navigate workforce efficiency with pinpoint precision. Our
-              GPS-based attendance system ensures employees are exactly where
-              they need to be, fostering accountability and transparency.
-            </p>
-          </div>
-          <div class="col-md-4 text-center">
-            <i class="fa-solid fa-camera feature-icon"></i>
-            <h4 class="h4 text-center">Selfie Photo Attendance Verification</h4>
-            <p>
-              Empower your attendance with a smile. Our selfie verification
-              process adds a personal touch to security, ensuring that the right
-              person is in the right place at the right time.
-            </p>
-          </div>
-          <div class="col-md-4 text-center">
-            <i class="fa-solid fa-file-excel feature-icon"></i>
-            <h4 class="h4 text-center">
-              Excel Report Integration for Attendance Data
-            </h4>
-            <p>
-              Simplify your attendance analysis. With our seamless Excel
-              integration, you can effortlessly import attendance data for
-              detailed reporting and informed decision-making.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
+    <!-- Hero -->
+    <section
+      id="hero"
+      class="flex flex-col items-center justify-center pb-10 min-h-[70vh] lg:min-h-screen 2xl:min-h-[30vh]"
+    >
+      <div class="container px-4 mx-auto">
+        <div class="hero-text pt-10 lg:pt-0 2xl:pt-10">
+          <p
+            class="w-fit relative md:text-sm text-xs after:content-[''] after:absolute after:h-1/2 after:bg-blue-100 after:bottom-0 after:w-full after:left-0 after:-z-10 md:font-medium font-normal"
+          >
+            Solusi Manajemen Kehadiran yang Efisien
+          </p>
+          <h1
+            class="font-semibold md:text-4xl mt-1 mb-4 md:leading-tight leading-normal text-xl w-full lg:w-2/3"
+          >
+            Kelola Kehadiran secara Canggih dengan GPS Real-time dan Foto Selfie
+          </h1>
 
-    <section id="benefits" class="mt-5 p-5">
-      <div class="container justify-content-center">
-        <div class="row g-3 align-items-center">
-          <div class="col-md-4 benefits-left-col">
-            <img
-              src="resources/img/mock_up_smartphone.png"
-              alt="O-Present"
-              class="img-mockup smartphone"
-            />
-          </div>
-          <div class="col-md-8 benefits-right-col">
-            <h2 class="h2">
-              What are the
-              <span class="title-span">Benefits</span> ?
-            </h2>
-
-            <div class="benefit-list mt-4">
-              <div class="row align-items-center mb-3">
-                <div class="col-1 d-flex justify-content-center">
-                  <i class="fa-solid fa-thumbs-up benefit-list-icon"></i>
-                </div>
-                <div class="col-10">
-                  <h4 class="mb-1">Enhanced Accuracy</h4>
-                  <p class="mb-0">
-                    GPS tracking ensures precise location data, reducing the
-                    chances of time theft or buddy punching.
-                  </p>
-                </div>
-              </div>
-
-              <div class="row align-items-center mb-3">
-                <div class="col-1 d-flex justify-content-center">
-                  <i class="fa-solid fa-thumbs-up benefit-list-icon"></i>
-                </div>
-                <div class="col-10">
-                  <h4 class="mb-1">Increased Productivity</h4>
-                  <p class="mb-0">
-                    Automated attendance tracking saves time for both employees
-                    and HR personnel, allowing them to focus on more productive
-                    tasks.
-                  </p>
-                </div>
-              </div>
-
-              <div class="row align-items-center mb-3">
-                <div class="col-1 d-flex justify-content-center">
-                  <i class="fa-solid fa-thumbs-up benefit-list-icon"></i>
-                </div>
-                <div class="col-10">
-                  <h4 class="mb-1">Real-Time Monitoring</h4>
-                  <p class="mb-0">
-                    Managers can monitor attendance in real-time, making it
-                    easier to manage remote or field employees.
-                  </p>
-                </div>
-              </div>
-
-              <div class="row align-items-center mb-3">
-                <div class="col-1 d-flex justify-content-center">
-                  <i class="fa-solid fa-thumbs-up benefit-list-icon"></i>
-                </div>
-                <div class="col-10">
-                  <h4 class="mb-1">Data Integration</h4>
-                  <p class="mb-0">
-                    Easy integration with Excel allows for quick analysis and
-                    reporting, aiding in decision-making processes.
-                  </p>
-                </div>
-              </div>
-
-              <div class="row align-items-center mb-3">
-                <div class="col-1 d-flex justify-content-center">
-                  <i class="fa-solid fa-thumbs-up benefit-list-icon"></i>
-                </div>
-                <div class="col-10">
-                  <h4 class="mb-1">Cost-Effective</h4>
-                  <p class="mb-0">
-                    Reduces the need for physical attendance systems and the
-                    associated maintenance costs.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="closing" class="bg-primary-subtle mt-5 p-5">
-      <div class="container text-center">
-        <div class="row justify-content-center">
-          <div class="col-md-8">
-            <h3>
-              Experience the
-              <span class="title-span">Future of Attendance</span> Today
-            </h3>
-            <p>
-              Don’t miss out on the opportunity to streamline your attendance
-              process. Our detailed documentation and accessible source code are
-              just a click away. Discover the benefits firsthand and start your
-              journey towards a more efficient, secure, and reliable attendance
-              management. Download now and witness the transformation in action.
-            </p>
-
-            <div class="row justify-content-center mt-4 g-3">
-              <div class="col-auto">
-                <a
-                  href="https://github.com/josephines1/o-present"
-                  class="btn button-doc"
-                  target="_blank"
-                >
-                  <i class="fa-solid fa-book"></i>
-                  View Documentation
-                </a>
-              </div>
-              <div class="col-auto">
-                <a
-                  href="https://github.com/josephines1/o-present/archive/refs/heads/main.zip"
-                  class="btn button-download text-light"
-                >
-                  <i class="fa-solid fa-download"></i>
-                  Download Source Code
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <footer id="footer" class="p-3 pt-5">
-      <div class="container">
-        <div class="row justify-content-between align-items-center">
-          <div class="col-md-3">
-            <h5 class="h5">
-              <a
-                class="navbar-brand d-flex align-items-center mb-0"
-                href="#hero"
+          <div class="hero-cta flex items-center space-x-2 mb-6">
+            <a
+              href="#"
+              class="w-fit flex items-center space-x-2 font-medium text-white bg-blue-800 hover:bg-blue-900 py-3 px-3 md:py-2.5 rounded-full transition-[background] duration-300 text-sm"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                width="16"
+                height="16"
+                stroke="currentColor"
+                stroke-width="2"
+                fill="none"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="css-i6dzq1"
               >
-                <img
-                  src="resources/img/logo.png"
-                  alt="Logo"
-                  class="d-inline-block align-text-top img-logo"
-                />
-                O-Present
-              </a>
-            </h5>
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+              <span>Download Gratis</span>
+            </a>
+            <a
+              href="#"
+              class="w-fit flex items-center space-x-2 font-medium text-blue-600 hover:bg-blue-50 py-3 px-3 md:py-2.5 rounded-full transition-[background] duration-300 text-sm"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                width="16"
+                height="16"
+                stroke="currentColor"
+                stroke-width="2"
+                fill="none"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="css-i6dzq1"
+              >
+                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+              </svg>
+              <span class="hidden sm:block">Lihat Dokumentasi</span>
+              <span class="block sm:hidden">Docs</span></a
+            >
           </div>
-
-          <div class="col-md-9">
-            <div class="row nav-links d-flex justify-content-end">
-              <div class="col-md-auto">
-                <a
-                  href="https://github.com/josephines1/o-present"
-                  target="_blank"
-                >
-                  <i class="fa-brands fa-github"></i>
-                  <span></span>Source Code
-                </a>
-              </div>
-              <div class="col-md-auto">
-                <a href="https://josephines1.github.io/" target="_blank"
-                  >Copyright &copy; 2024 Josephine</a
-                >
-              </div>
-            </div>
+        </div>
+        <div
+          class="hero-img flex items-center justify-start lg:justify-center lg:space-x-2 overflow-x-hidden"
+        >
+          <div
+            class="image-container rounded-xl overflow-hidden flex-none lg:flex-1 h-80 hidden lg:block"
+          >
+            <img
+              src="./assets/img/hero/mockup_desktop.png"
+              alt="Desktop"
+              class="w-full h-full object-cover"
+            />
+          </div>
+          <div
+            class="image-container rounded-xl overflow-hidden flex-none w-full lg:w-96 h-80 md:block hidden"
+          >
+            <img
+              src="./assets/img/hero/mockup_tablet.png"
+              alt="Tablet"
+              class="w-full h-full object-cover"
+            />
+          </div>
+          <div
+            class="image-container rounded-xl overflow-hidden flex-none w-full lg:w-80 h-80 md:hidden block lg:block"
+          >
+            <img
+              src="./assets/img/hero/mockup_mobile.png"
+              alt="Mobile"
+              class="w-full h-full object-cover"
+            />
           </div>
         </div>
       </div>
+    </section>
+
+    <!-- Tentang -->
+    <section id="tentang">
+      <div class="container mx-auto px-4 text-center py-24">
+        <p
+          class="w-fit mx-auto relative md:text-sm text-xs after:content-[''] after:absolute after:h-1/2 after:bg-blue-100 after:bottom-0 after:w-full after:left-0 after:-z-10 md:font-medium font-normal"
+        >
+          Tentang
+        </p>
+        <h1
+          class="font-semibold lg:text-4xl mt-1 mb-4 lg:leading-tight leading-normal text-xl w-full"
+        >
+          Solusi Presensi Modern
+        </h1>
+        <p class="lg:w-2/3 w-full mx-auto leading-loose text-sm lg:text-base">
+          O-Present adalah aplikasi berbasis web yang dirancang untuk
+          <span class="text-blue-600"
+            >mencatat kehadiran secara online dengan mudah dan efisien</span
+          >. Dilengkapi dengan fitur GPS dan foto selfie, O-Present memastikan
+          keakuratan data kehadiran pegawai dan memudahkan pengelolaannya.
+        </p>
+      </div>
+    </section>
+
+    <!-- Fitur -->
+    <section
+      id="fitur"
+      class="flex flex-col items-center justify-center"
+      x-data="fiturData()"
+      @scroll.window="checkVisibility"
+    >
+      <div
+        class="container px-4 flex items-center py-24 justify-between space-x-0 flex-col-reverse md:space-x-5 lg:flex-row"
+      >
+        <div class="left-side w-full lg:w-1/2">
+          <p
+            class="w-fit relative md:text-sm text-xs after:content-[''] after:absolute after:h-1/2 after:bg-blue-100 after:bottom-0 after:w-full after:left-0 after:-z-10 md:font-medium font-normal"
+          >
+            Fitur
+          </p>
+          <h1
+            class="font-semibold md:text-4xl mt-1 mb-4 md:leading-tight leading-normal text-xl w-full"
+          >
+            Temukan Inovasi dalam Presensi Masa Kini
+          </h1>
+          <ul>
+            <template x-for="(point, index) in points" :key="index">
+              <li class="mb-5 flex items-center space-x-5 text-sm lg:text-base">
+                <div class="loader-container">
+                  <div
+                    class="loader-background"
+                    :class="{'hidden': currentPoint === index}"
+                  ></div>
+                  <div
+                    class="loader"
+                    :class="{'hidden': currentPoint !== index, 'animate-loader': startLoading && currentPoint === index}"
+                  ></div>
+                </div>
+                <div>
+                  <h3 class="font-bold" x-text="point.title"></h3>
+                  <p x-text="point.description"></p>
+                </div>
+              </li>
+            </template>
+          </ul>
+        </div>
+        <!-- Right Side: Illustration -->
+        <div class="w-full lg:w-1/2 mb-10 lg:mb-0">
+          <img
+            :key="currentPoint"
+            :src="currentImage"
+            alt="Illustration"
+            class="fitur-img w-auto h-80 object-cover mx-auto"
+            :class="{'animate-zoomIn': startLoading}"
+          />
+        </div>
+      </div>
+    </section>
+
+    <!-- Kelebihan -->
+    <section id="kelebihan">
+      <div class="container px-4 mx-auto py-24">
+        <p
+          class="w-fit mx-auto relative md:text-sm text-xs after:content-[''] after:absolute after:h-1/2 after:bg-blue-100 after:bottom-0 after:w-full after:left-0 after:-z-10 md:font-medium font-normal"
+        >
+          Kelebihan
+        </p>
+        <h1
+          class="text-center font-semibold lg:text-4xl mt-1 mb-4 lg:leading-tight leading-normal text-xl w-full"
+        >
+          Jelajahi Solusi Praktis Presensi Online
+        </h1>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-12">
+          <div class="bg-blue-100 p-4 rounded-lg shadow-lg">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 64 64"
+              width="40"
+              height="40"
+              class="mb-4"
+            >
+              <path
+                fill="#2563eb"
+                d="M43.922 51.766H26.945c-.815 0-1.477.663-1.477 1.477 0 .815.663 1.477 1.477 1.477h16.977c.815 0 1.477-.663 1.477-1.477a1.48 1.48 0 0 0-1.477-1.477zM60.649 5.565H10.218a3.314 3.314 0 0 0-3.31 3.31v6.203c0 .789.642 1.431 1.431 1.431h.092c.789 0 1.431-.642 1.431-1.431V8.874c0-.196.16-.356.356-.356h50.461a.33.33 0 0 1 .326.327v3.873a1.479 1.479 0 0 0 1.75 1.452c.686-.126 1.204-.785 1.204-1.534V8.874a3.313 3.313 0 0 0-3.31-3.309zm2.132 15.464a1.479 1.479 0 0 0-1.776 1.447v23.552c0 .18-.146.327-.326.327H27.396a1.48 1.48 0 0 0-1.477 1.477c0 .815.663 1.477 1.477 1.477h33.283a3.285 3.285 0 0 0 3.281-3.281V22.531c-.001-.735-.496-1.366-1.179-1.502zM3.23 51.42h15.349c.828 0 1.502-.674 1.502-1.502s-.674-1.502-1.502-1.502H3.23a.185.185 0 0 1-.185-.184V21.921c0-.388.316-.704.705-.704h16.623c.389 0 .704.316.704.704 0 .828.674 1.502 1.502 1.502s1.502-.674 1.502-1.502a3.713 3.713 0 0 0-3.709-3.708H3.75a3.713 3.713 0 0 0-3.709 3.708v26.311a3.192 3.192 0 0 0 .189 1.499z"
+              />
+              <path
+                fill="#2563eb"
+                d="M22.58 30.225c-.828 0-1.502.674-1.502 1.502v22.999a.705.705 0 0 1-.704.705H3.75a.705.705 0 0 1-.705-.705c0-.828-.674-1.502-1.502-1.502s-1.502.674-1.502 1.502a3.713 3.713 0 0 0 3.709 3.709h16.623a3.713 3.713 0 0 0 3.709-3.709V31.727c0-.828-.674-1.502-1.502-1.502zM9.867 22.564c-.732 0-1.327.596-1.327 1.327s.596 1.327 1.327 1.327h4.855c.732 0 1.328-.595 1.328-1.327s-.596-1.327-1.328-1.327H9.867z"
+              />
+              <circle cx="22.356" cy="26.253" r="1.446" fill="#343434" />
+              <circle cx="62.448" cy="16.889" r="1.512" fill="#343434" />
+              <circle cx="35.434" cy="43.335" r="1.511" fill="#343434" />
+              <circle cx="12.294" cy="53.267" r="1.511" fill="#343434" />
+            </svg>
+
+            <h2 class="text-lg font-bold mb-4">Responsif dan Mudah Diakses</h2>
+            <p class="text-sm lg:text-base">
+              Aplikasi responsif untuk penggunaan yang lancar dari desktop
+              hingga mobile.
+            </p>
+          </div>
+          <div class="bg-blue-100 p-4 rounded-lg shadow-lg">
+            <svg
+              viewBox="0 0 24 24"
+              width="40"
+              height="40"
+              stroke="#2563eb"
+              stroke-width="1"
+              fill="none"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="css-i6dzq1 mb-4"
+            >
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="3" y1="9" x2="21" y2="9"></line>
+              <line x1="9" y1="21" x2="9" y2="9"></line>
+            </svg>
+
+            <h2 class="text-lg font-bold mb-4">Layout yang Ramah Pengguna</h2>
+            <p class="text-sm lg:text-base">
+              Antarmuka intuitif memudahkan pengelolaan kehadiran karyawan.
+            </p>
+          </div>
+          <div class="bg-blue-100 p-4 rounded-lg shadow-lg">
+            <svg
+              viewBox="0 0 24 24"
+              width="40"
+              height="40"
+              stroke="#2563eb"
+              stroke-width="1"
+              fill="none"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="css-i6dzq1 mb-4"
+            >
+              <line x1="12" y1="1" x2="12" y2="23"></line>
+              <path
+                d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"
+              ></path>
+            </svg>
+
+            <h2 class="text-lg font-bold mb-4">Efisiensi Biaya</h2>
+            <p class="text-sm lg:text-base">
+              Mengurangi biaya administrasi dengan meningkatkan efisiensi
+              operasional.
+            </p>
+          </div>
+          <div class="bg-blue-100 p-4 rounded-lg shadow-lg">
+            <svg
+              viewBox="0 0 24 24"
+              width="40"
+              height="40"
+              stroke="#2563eb"
+              stroke-width="1"
+              fill="none"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="css-i6dzq1 mb-4"
+            >
+              <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+              <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path>
+              <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
+            </svg>
+
+            <h2 class="text-lg font-bold mb-4">Integrasi Data Terpusat</h2>
+            <p class="text-sm lg:text-base">
+              Data kehadiran terintegrasi secara sempurna untuk pengambilan
+              keputusan yang lebih baik.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Closure -->
+    <section id="closure">
+      <div class="container py-24 px-4 mx-auto bg-blue-50 rounded-xl w-[95%]">
+        <p
+          class="w-fit mx-auto relative md:text-sm text-xs after:content-[''] after:absolute after:h-1/2 after:bg-blue-300 after:bottom-0 after:w-full after:left-0 after:-z-10 z-10 md:font-medium font-normal"
+        >
+          Mulai Sekarang
+        </p>
+        <h1
+          class="text-center font-semibold lg:text-4xl mt-1 mb-4 lg:leading-tight leading-normal text-xl w-full"
+        >
+          Tingkatkan Manajemen Kehadiran Organisasi Anda Hari Ini
+        </h1>
+        <p class="text-sm lg:text-base text-center w-fit md:w-2/3 mx-auto mb-8">
+          Mulai jelajahi manfaat dari manajemen kehadiran yang lebih efisien,
+          aman, dan andal. Download aplikasi presensi online dengan satu klik.
+        </p>
+        <a
+          href="#"
+          class="w-fit mx-auto flex items-center space-x-2 font-medium text-white bg-blue-800 hover:bg-blue-900 py-3 px-3 md:py-2.5 rounded-full transition-[background] duration-300 text-sm"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            width="16"
+            height="16"
+            stroke="currentColor"
+            stroke-width="2"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="css-i6dzq1"
+          >
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          <span>Download Gratis</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <div
+        class="container py-12 px-4 mx-auto flex items-center justify-between flex-col sm:flex-row space-y-5 sm:space-y-0"
+      >
+        <div class="logo flex items-center space-x-2">
+          <img
+            src="./assets/img/logo.png"
+            alt="O-Present"
+            width="50"
+            height="50"
+          />
+          <a href="." class="font-semibold text-lg text-blue-900">O-Present</a>
+        </div>
+        <div class="cta flex items-center space-x-2">
+          <a
+            href="https://github.com/josephines1/o-present"
+            class="flex items-center space-x-2 font-medium text-blue-600 hover:bg-blue-50 py-4 px-4 md:py-2.5 rounded-full transition-[background] duration-300 text-sm"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              width="16"
+              height="16"
+              stroke="currentColor"
+              stroke-width="2"
+              fill="none"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="css-i6dzq1"
+            >
+              <path
+                d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"
+              ></path>
+            </svg>
+            <span class="hidden md:block">Source Code</span></a
+          >
+          <a
+            href="https://github.com/josephines1/o-present/archive/refs/heads/main.zip"
+            class="flex items-center space-x-2 font-medium text-white bg-blue-800 hover:bg-blue-900 py-4 px-4 md:py-2.5 rounded-full transition-[background] duration-300 text-sm"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              width="16"
+              height="16"
+              stroke="currentColor"
+              stroke-width="2"
+              fill="none"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="css-i6dzq1"
+            >
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            <span class="hidden md:block">Download</span></a
+          >
+        </div>
+      </div>
+      <p class="text-center text-xs opacity-70 pb-4">
+        Copyright &copy; 2024
+        <a href="https://josephines1.github.io/" target="_blank">Josephine</a>.
+        All rights reserved.
+      </p>
     </footer>
 
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-      crossorigin="anonymous"
-    ></script>
+    <script>
+      feather.replace();
+
+      function fiturData() {
+        return {
+          points: [
+            {
+              title: "Berbasis GPS",
+              description:
+                "Memastikan pegawai berada di tempat yang tepat untuk transparansi.",
+            },
+            {
+              title: "Foto Selfie",
+              description:
+                "Memastikan pegawai adalah orang yang tepat di tempat yang tepat.",
+            },
+            {
+              title: "Export Excel",
+              description:
+                "Mempermudah analisis kehadiran dengan integrasi Excel.",
+            },
+          ],
+          images: [
+            "./assets/img/fitur/fitur_gps.svg",
+            "./assets/img/fitur/fitur_selfie.svg",
+            "./assets/img/fitur/fitur_excel.svg",
+          ],
+          currentPoint: 0,
+          intervalId: null,
+          startLoading: false,
+
+          get currentImage() {
+            return this.images[this.currentPoint];
+          },
+
+          checkVisibility() {
+            const section = document.getElementById("fitur");
+            const rect = section.getBoundingClientRect();
+            if (rect.top < window.innerHeight && rect.bottom >= 0) {
+              if (!this.startLoading) {
+                this.startLoading = true;
+                this.startAnimation();
+              }
+            } else {
+              this.stopAnimation();
+              this.startLoading = false;
+            }
+          },
+
+          startAnimation() {
+            this.intervalId = setInterval(() => {
+              this.currentPoint = (this.currentPoint + 1) % this.points.length;
+            }, 5000);
+          },
+
+          stopAnimation() {
+            if (this.intervalId) {
+              clearInterval(this.intervalId);
+              this.intervalId = null;
+            }
+          },
+        };
+      }
+    </script>
   </body>
 </html>
