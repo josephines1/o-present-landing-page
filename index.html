@@ -3,14 +3,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Kelola Kehadiran dengan Mudah dengan O-Present</title>
+    <title>O-Present | Kelola Kehadiran dengan GPS dan Foto Selfie</title>
     <meta
       name="description"
-      content="Download Website Presensi Online dengan Fitur GPS dan Foto Selfie"
+      content="Download Source Code Website Presensi Online dengan Fitur GPS dan Foto Selfie"
     />
     <meta
       name="keywords"
-      content="presensi online, absensi online, website presensi, website absensi, gps, foto selfie, kehadiran online, monitoring kehadiran, github, open source"
+      content="presensi online, absensi online, website presensi, website absensi, gps, foto selfie, kehadiran online, monitoring kehadiran, github, open source, source code"
     />
     <meta name="author" content="Josephine" />
     <link
@@ -42,6 +42,36 @@
     <style>
       * {
         font-family: "Poppins", sans-serif;
+      }
+
+      @keyframes fadeInDown {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .animate-fadeInDown {
+        animation: fadeInDown 1.2s ease-in-out forwards;
+      }
+
+      .animate-fadeInUp {
+        animation: fadeInUp 1.2s ease-in-out forwards;
       }
 
       .loader {
@@ -126,14 +156,18 @@
       <div
         class="container mx-auto px-4 py-2.5 flex justify-between items-center"
       >
-        <div class="logo flex items-center space-x-2">
-          <img
-            src="./assets/img/logo.png"
-            alt="O-Present"
-            width="50"
-            height="50"
-          />
-          <a href="." class="font-semibold text-lg text-blue-900">O-Present</a>
+        <div class="logo">
+          <a
+            href="."
+            class="font-semibold text-lg text-blue-900 flex items-center space-x-2"
+            ><img
+              src="./assets/img/logo.png"
+              alt="O-Present"
+              width="50"
+              height="50"
+            />
+            <span>O-Present</span>
+          </a>
         </div>
         <nav>
           <ul
@@ -207,21 +241,23 @@
     <section
       id="hero"
       class="flex flex-col items-center justify-center pb-10 min-h-[70vh] lg:min-h-screen 2xl:min-h-[30vh]"
+      x-data="heroAnimation()"
+      x-init="init()"
     >
       <div class="container px-4 mx-auto">
-        <div class="hero-text pt-10 lg:pt-0 2xl:pt-10">
+        <div class="hero-text pt-10 lg:pt-0 2xl:pt-10" x-ref="heroText">
           <p
-            class="w-fit relative md:text-sm text-xs after:content-[''] after:absolute after:h-1/2 after:bg-blue-100 after:bottom-0 after:w-full after:left-0 after:-z-10 md:font-medium font-normal"
+            class="w-fit relative md:text-sm text-xs after:content-[''] after:absolute after:h-1/2 after:bg-blue-100 after:bottom-0 after:w-full after:left-0 after:-z-10 md:font-medium font-normal opacity-0"
           >
             Solusi Manajemen Kehadiran yang Efisien
           </p>
           <h1
-            class="font-semibold md:text-4xl mt-1 mb-4 md:leading-tight leading-normal text-xl w-full lg:w-2/3"
+            class="font-semibold md:text-4xl mt-1 mb-4 md:leading-tight leading-normal text-xl w-full lg:w-2/3 opacity-0"
           >
             Kelola Kehadiran secara Canggih dengan GPS Real-time dan Foto Selfie
           </h1>
 
-          <div class="hero-cta flex items-center space-x-2 mb-6">
+          <div class="hero-cta flex items-center space-x-2 mb-6 opacity-0">
             <a
               href="#"
               class="w-fit flex items-center space-x-2 font-medium text-white bg-blue-800 hover:bg-blue-900 py-3 px-3 md:py-2.5 rounded-full transition-[background] duration-300 text-sm"
@@ -267,10 +303,11 @@
           </div>
         </div>
         <div
-          class="hero-img flex items-center justify-start lg:justify-center lg:space-x-2 overflow-x-hidden"
+          class="hero-img flex items-center justify-start lg:justify-center lg:space-x-2 overflow-hidden"
+          x-ref="heroImages"
         >
           <div
-            class="image-container rounded-xl overflow-hidden flex-none lg:flex-1 h-80 hidden lg:block"
+            class="image-container rounded-xl overflow-hidden flex-none lg:flex-1 h-80 hidden lg:block opacity-0"
           >
             <img
               src="./assets/img/hero/mockup_desktop.png"
@@ -279,7 +316,7 @@
             />
           </div>
           <div
-            class="image-container rounded-xl overflow-hidden flex-none w-full lg:w-96 h-80 md:block hidden"
+            class="image-container rounded-xl overflow-hidden flex-none w-full lg:w-96 h-80 md:block hidden opacity-0"
           >
             <img
               src="./assets/img/hero/mockup_tablet.png"
@@ -288,7 +325,7 @@
             />
           </div>
           <div
-            class="image-container rounded-xl overflow-hidden flex-none w-full lg:w-80 h-80 md:hidden block lg:block"
+            class="image-container rounded-xl overflow-hidden flex-none w-full lg:w-80 h-80 md:hidden block lg:block opacity-0"
           >
             <img
               src="./assets/img/hero/mockup_mobile.png"
@@ -301,19 +338,24 @@
     </section>
 
     <!-- Tentang -->
-    <section id="tentang">
+    <section id="tentang" x-data="tentangAnimation()" x-init="init()">
       <div class="container mx-auto px-4 text-center py-24">
         <p
-          class="w-fit mx-auto relative md:text-sm text-xs after:content-[''] after:absolute after:h-1/2 after:bg-blue-100 after:bottom-0 after:w-full after:left-0 after:-z-10 md:font-medium font-normal"
+          class="w-fit mx-auto relative md:text-sm text-xs after:content-[''] after:absolute after:h-1/2 after:bg-blue-100 after:bottom-0 after:w-full after:left-0 after:-z-10 md:font-medium font-normal opacity-0"
+          x-ref="tentangSmallTitleText"
         >
           Tentang
         </p>
         <h1
-          class="font-semibold lg:text-4xl mt-1 mb-4 lg:leading-tight leading-normal text-xl w-full"
+          class="font-semibold lg:text-4xl mt-1 mb-4 lg:leading-tight leading-normal text-xl w-full opacity-0"
+          x-ref="tentangTitleText"
         >
           Solusi Presensi Modern
         </h1>
-        <p class="lg:w-2/3 w-full mx-auto leading-loose text-sm lg:text-base">
+        <p
+          class="lg:w-2/3 w-full mx-auto leading-loose text-sm lg:text-base opacity-0"
+          x-ref="tentangParagrafText"
+        >
           O-Present adalah aplikasi berbasis web yang dirancang untuk
           <span class="text-blue-600"
             >mencatat kehadiran secara online dengan mudah dan efisien</span
@@ -335,18 +377,22 @@
       >
         <div class="left-side w-full lg:w-1/2">
           <p
-            class="w-fit relative md:text-sm text-xs after:content-[''] after:absolute after:h-1/2 after:bg-blue-100 after:bottom-0 after:w-full after:left-0 after:-z-10 md:font-medium font-normal"
+            class="w-fit relative md:text-sm text-xs after:content-[''] after:absolute after:h-1/2 after:bg-blue-100 after:bottom-0 after:w-full after:left-0 after:-z-10 md:font-medium font-normal opacity-0"
+            x-ref="fiturSmallTitleText"
           >
             Fitur
           </p>
           <h1
-            class="font-semibold md:text-4xl mt-1 mb-4 md:leading-tight leading-normal text-xl w-full"
+            class="font-semibold md:text-4xl mt-1 mb-4 md:leading-tight leading-normal text-xl w-full opacity-0"
+            x-ref="fiturTitleText"
           >
             Temukan Inovasi dalam Presensi Masa Kini
           </h1>
-          <ul>
+          <ul x-ref="fiturPointText">
             <template x-for="(point, index) in points" :key="index">
-              <li class="mb-5 flex items-center space-x-5 text-sm lg:text-base">
+              <li
+                class="mb-5 flex items-center space-x-5 text-sm lg:text-base opacity-0"
+              >
                 <div class="loader-container">
                   <div
                     class="loader-background"
@@ -365,8 +411,7 @@
             </template>
           </ul>
         </div>
-        <!-- Right Side: Illustration -->
-        <div class="w-full lg:w-1/2 mb-10 lg:mb-0">
+        <div class="right-side w-full lg:w-1/2 mb-10 lg:mb-0">
           <img
             :key="currentPoint"
             :src="currentImage"
@@ -379,20 +424,25 @@
     </section>
 
     <!-- Kelebihan -->
-    <section id="kelebihan">
+    <section id="kelebihan" x-data="kelebihanAnimation()" x-init="init()">
       <div class="container px-4 mx-auto py-24">
         <p
-          class="w-fit mx-auto relative md:text-sm text-xs after:content-[''] after:absolute after:h-1/2 after:bg-blue-100 after:bottom-0 after:w-full after:left-0 after:-z-10 md:font-medium font-normal"
+          class="w-fit mx-auto relative md:text-sm text-xs after:content-[''] after:absolute after:h-1/2 after:bg-blue-100 after:bottom-0 after:w-full after:left-0 after:-z-10 md:font-medium font-normal opacity-0"
+          x-ref="kelebihanSmallTitleText"
         >
           Kelebihan
         </p>
         <h1
-          class="text-center font-semibold lg:text-4xl mt-1 mb-4 lg:leading-tight leading-normal text-xl w-full"
+          class="text-center font-semibold lg:text-4xl mt-1 mb-4 lg:leading-tight leading-normal text-xl w-full opacity-0"
+          x-ref="kelebihanTitleText"
         >
           Jelajahi Solusi Praktis Presensi Online
         </h1>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-12">
-          <div class="bg-blue-100 p-4 rounded-lg shadow-lg">
+        <div
+          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-12"
+          x-ref="kelebihanPointText"
+        >
+          <div class="bg-blue-100 p-4 rounded-lg shadow-lg opacity-0">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 64 64"
@@ -420,7 +470,7 @@
               hingga mobile.
             </p>
           </div>
-          <div class="bg-blue-100 p-4 rounded-lg shadow-lg">
+          <div class="bg-blue-100 p-4 rounded-lg shadow-lg opacity-0">
             <svg
               viewBox="0 0 24 24"
               width="40"
@@ -442,7 +492,7 @@
               Antarmuka intuitif memudahkan pengelolaan kehadiran karyawan.
             </p>
           </div>
-          <div class="bg-blue-100 p-4 rounded-lg shadow-lg">
+          <div class="bg-blue-100 p-4 rounded-lg shadow-lg opacity-0">
             <svg
               viewBox="0 0 24 24"
               width="40"
@@ -466,7 +516,7 @@
               operasional.
             </p>
           </div>
-          <div class="bg-blue-100 p-4 rounded-lg shadow-lg">
+          <div class="bg-blue-100 p-4 rounded-lg shadow-lg opacity-0">
             <svg
               viewBox="0 0 24 24"
               width="40"
@@ -494,25 +544,31 @@
     </section>
 
     <!-- Closure -->
-    <section id="closure">
+    <section id="closure" x-data="closureAnimation()" x-init="init()">
       <div class="container py-24 px-4 mx-auto bg-blue-50 rounded-xl w-[95%]">
         <p
-          class="w-fit mx-auto relative md:text-sm text-xs after:content-[''] after:absolute after:h-1/2 after:bg-blue-300 after:bottom-0 after:w-full after:left-0 after:-z-10 z-10 md:font-medium font-normal"
+          class="w-fit mx-auto relative md:text-sm text-xs after:content-[''] after:absolute after:h-1/2 after:bg-blue-300 after:bottom-0 after:w-full after:left-0 after:-z-10 z-10 md:font-medium font-normal opacity-0"
+          x-ref="closureSmallTitleText"
         >
           Mulai Sekarang
         </p>
         <h1
-          class="text-center font-semibold lg:text-4xl mt-1 mb-4 lg:leading-tight leading-normal text-xl w-full"
+          class="text-center font-semibold lg:text-4xl mt-1 mb-4 lg:leading-tight leading-normal text-xl w-full opacity-0"
+          x-ref="closureTitleText"
         >
           Tingkatkan Manajemen Kehadiran Organisasi Anda Hari Ini
         </h1>
-        <p class="text-sm lg:text-base text-center w-fit md:w-2/3 mx-auto mb-8">
+        <p
+          class="text-sm lg:text-base text-center w-fit md:w-2/3 mx-auto mb-8 opacity-0"
+          x-ref="closureParagrafText"
+        >
           Mulai jelajahi manfaat dari manajemen kehadiran yang lebih efisien,
           aman, dan andal. Download aplikasi presensi online dengan satu klik.
         </p>
         <a
           href="#"
-          class="w-fit mx-auto flex items-center space-x-2 font-medium text-white bg-blue-800 hover:bg-blue-900 py-3 px-3 md:py-2.5 rounded-full transition-[background] duration-300 text-sm"
+          class="w-fit mx-auto flex items-center space-x-2 font-medium text-white bg-blue-800 hover:bg-blue-900 py-3 px-3 md:py-2.5 rounded-full transition-[background] duration-300 text-sm opacity-0"
+          x-ref="closureCta"
         >
           <svg
             viewBox="0 0 24 24"
@@ -601,7 +657,79 @@
     </footer>
 
     <script>
-      feather.replace();
+      function heroAnimation() {
+        return {
+          init() {
+            this.animateElements();
+          },
+          animateElements() {
+            const heroText = this.$refs.heroText;
+            const heroImages = this.$refs.heroImages;
+
+            // Animasi untuk hero-text (fadeInDown)
+            Array.from(heroText.children).forEach((element, index) => {
+              setTimeout(() => {
+                element.classList.add("animate-fadeInDown");
+              }, index * 100);
+            });
+
+            // Animasi untuk hero-images (fadeInUp)
+            Array.from(heroImages.children).forEach((element, index) => {
+              setTimeout(() => {
+                element.classList.add("animate-fadeInUp");
+              }, index * 100);
+            });
+          },
+        };
+      }
+
+      function tentangAnimation() {
+        return {
+          init() {
+            this.setupIntersectionObserver();
+          },
+          setupIntersectionObserver() {
+            const options = {
+              root: null,
+              rootMargin: "0px",
+              threshold: 0.5,
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+              entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                  this.animateElements();
+                  observer.disconnect();
+                }
+              });
+            }, options);
+
+            observer.observe(this.$el);
+          },
+          animateElements() {
+            // Animasi untuk "Tentang" dan paragraf (fadeInUp)
+            this.$refs.tentangSmallTitleText.classList.add("animate-fadeInUp");
+            this.$refs.tentangParagrafText.classList.add("animate-fadeInUp");
+
+            // Animasi typewriter untuk Solusi Presensi Modern
+            const typewriterText = this.$refs.tentangTitleText;
+            const text = typewriterText.innerText;
+            typewriterText.innerText = "";
+            let i = 0;
+            const speed = 50; // Kecepatan ketikan dalam ms
+
+            function typeWriter() {
+              if (i < text.length) {
+                typewriterText.classList.remove("opacity-0");
+                typewriterText.innerHTML += text.charAt(i);
+                i++;
+                setTimeout(typeWriter, speed);
+              }
+            }
+            typeWriter();
+          },
+        };
+      }
 
       function fiturData() {
         return {
@@ -660,6 +788,118 @@
               clearInterval(this.intervalId);
               this.intervalId = null;
             }
+          },
+
+          init() {
+            this.setupIntersectionObserver();
+          },
+          setupIntersectionObserver() {
+            const options = {
+              root: null,
+              rootMargin: "0px",
+              threshold: 0.5,
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+              entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                  this.animateElements();
+                  observer.disconnect();
+                }
+              });
+            }, options);
+
+            observer.observe(this.$el);
+          },
+          animateElements() {
+            const fiturPointText = this.$refs.fiturPointText;
+
+            // Animasi untuk "Tentang" dan paragraf (fadeInUp)
+            this.$refs.fiturSmallTitleText.classList.add("animate-fadeInUp");
+            this.$refs.fiturTitleText.classList.add("animate-fadeInUp");
+
+            // Animasi untuk fiturPointText
+            Array.from(fiturPointText.children).forEach((element, index) => {
+              setTimeout(() => {
+                element.classList.add("animate-fadeInDown");
+              }, index * 100);
+            });
+          },
+        };
+      }
+
+      function kelebihanAnimation() {
+        return {
+          init() {
+            this.setupIntersectionObserver();
+          },
+          setupIntersectionObserver() {
+            const options = {
+              root: null,
+              rootMargin: "0px",
+              threshold: 0.5,
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+              entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                  this.animateElements();
+                  observer.disconnect();
+                }
+              });
+            }, options);
+
+            observer.observe(this.$el);
+          },
+          animateElements() {
+            const kelebihanPointText = this.$refs.kelebihanPointText;
+
+            // Animasi untuk Small Title dan Title (fadeInUp)
+            this.$refs.kelebihanSmallTitleText.classList.add(
+              "animate-fadeInUp"
+            );
+            this.$refs.kelebihanTitleText.classList.add("animate-fadeInUp");
+
+            // Animasi untuk kelebihanPointText (fadeInDown)
+            Array.from(kelebihanPointText.children).forEach(
+              (element, index) => {
+                setTimeout(() => {
+                  element.classList.add("animate-fadeInDown");
+                }, index * 300);
+              }
+            );
+          },
+        };
+      }
+
+      function closureAnimation() {
+        return {
+          init() {
+            this.setupIntersectionObserver();
+          },
+          setupIntersectionObserver() {
+            const options = {
+              root: null,
+              rootMargin: "0px",
+              threshold: 0.5,
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+              entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                  this.animateElements();
+                  observer.disconnect();
+                }
+              });
+            }, options);
+
+            observer.observe(this.$el);
+          },
+          animateElements() {
+            this.$refs.closureSmallTitleText.classList.add("animate-fadeInUp");
+            this.$refs.closureTitleText.classList.add("animate-fadeInUp");
+            this.$refs.closureParagrafText.classList.add("animate-fadeInUp");
+            this.$refs.closureCta.classList.add("animate-fadeInDown");
           },
         };
       }
