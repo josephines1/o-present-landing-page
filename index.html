@@ -424,7 +424,11 @@
     </section>
 
     <!-- Kelebihan -->
-    <section id="kelebihan" x-data="kelebihanAnimation()" x-init="init()">
+    <section
+      id="kelebihan"
+      x-data="kelebihanDataAndAnimation()"
+      x-init="init()"
+    >
       <div class="container px-4 mx-auto py-24">
         <p
           class="w-fit mx-auto relative md:text-sm text-xs after:content-[''] after:absolute after:h-1/2 after:bg-blue-100 after:bottom-0 after:w-full after:left-0 after:-z-10 md:font-medium font-normal opacity-0"
@@ -442,111 +446,22 @@
           class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-12"
           x-ref="kelebihanPointText"
         >
-          <div
-            class="bg-transparent p-4 rounded-md shadow-xl border-2 border-blue-500 opacity-0"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 64 64"
-              width="40"
-              height="40"
-              class="mb-4"
+          <template x-for="(kelebihan, index) in kelebihanPoints" :key="index">
+            <div
+              class="bg-transparent p-4 rounded-md shadow-xl border-2 border-blue-500 opacity-0"
             >
-              <path
-                fill="#2563eb"
-                d="M43.922 51.766H26.945c-.815 0-1.477.663-1.477 1.477 0 .815.663 1.477 1.477 1.477h16.977c.815 0 1.477-.663 1.477-1.477a1.48 1.48 0 0 0-1.477-1.477zM60.649 5.565H10.218a3.314 3.314 0 0 0-3.31 3.31v6.203c0 .789.642 1.431 1.431 1.431h.092c.789 0 1.431-.642 1.431-1.431V8.874c0-.196.16-.356.356-.356h50.461a.33.33 0 0 1 .326.327v3.873a1.479 1.479 0 0 0 1.75 1.452c.686-.126 1.204-.785 1.204-1.534V8.874a3.313 3.313 0 0 0-3.31-3.309zm2.132 15.464a1.479 1.479 0 0 0-1.776 1.447v23.552c0 .18-.146.327-.326.327H27.396a1.48 1.48 0 0 0-1.477 1.477c0 .815.663 1.477 1.477 1.477h33.283a3.285 3.285 0 0 0 3.281-3.281V22.531c-.001-.735-.496-1.366-1.179-1.502zM3.23 51.42h15.349c.828 0 1.502-.674 1.502-1.502s-.674-1.502-1.502-1.502H3.23a.185.185 0 0 1-.185-.184V21.921c0-.388.316-.704.705-.704h16.623c.389 0 .704.316.704.704 0 .828.674 1.502 1.502 1.502s1.502-.674 1.502-1.502a3.713 3.713 0 0 0-3.709-3.708H3.75a3.713 3.713 0 0 0-3.709 3.708v26.311a3.192 3.192 0 0 0 .189 1.499z"
+              <img
+                :src="`./assets/icon/kelebihan/${kelebihan.icon}`"
+                alt="Icon"
+                class="mb-4"
               />
-              <path
-                fill="#2563eb"
-                d="M22.58 30.225c-.828 0-1.502.674-1.502 1.502v22.999a.705.705 0 0 1-.704.705H3.75a.705.705 0 0 1-.705-.705c0-.828-.674-1.502-1.502-1.502s-1.502.674-1.502 1.502a3.713 3.713 0 0 0 3.709 3.709h16.623a3.713 3.713 0 0 0 3.709-3.709V31.727c0-.828-.674-1.502-1.502-1.502zM9.867 22.564c-.732 0-1.327.596-1.327 1.327s.596 1.327 1.327 1.327h4.855c.732 0 1.328-.595 1.328-1.327s-.596-1.327-1.328-1.327H9.867z"
-              />
-              <circle cx="22.356" cy="26.253" r="1.446" fill="#343434" />
-              <circle cx="62.448" cy="16.889" r="1.512" fill="#343434" />
-              <circle cx="35.434" cy="43.335" r="1.511" fill="#343434" />
-              <circle cx="12.294" cy="53.267" r="1.511" fill="#343434" />
-            </svg>
-
-            <h2 class="text-lg font-bold mb-4">Responsif dan Mudah Diakses</h2>
-            <p class="text-sm lg:text-base">
-              Aplikasi responsif untuk penggunaan yang lancar dari desktop
-              hingga mobile.
-            </p>
-          </div>
-          <div
-            class="bg-transparent p-4 rounded-md shadow-xl border-2 border-blue-500 opacity-0"
-          >
-            <svg
-              viewBox="0 0 24 24"
-              width="40"
-              height="40"
-              stroke="#2563eb"
-              stroke-width="1"
-              fill="none"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="css-i6dzq1 mb-4"
-            >
-              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-              <line x1="3" y1="9" x2="21" y2="9"></line>
-              <line x1="9" y1="21" x2="9" y2="9"></line>
-            </svg>
-
-            <h2 class="text-lg font-bold mb-4">Layout yang Ramah Pengguna</h2>
-            <p class="text-sm lg:text-base">
-              Antarmuka intuitif memudahkan pengelolaan kehadiran karyawan.
-            </p>
-          </div>
-          <div
-            class="bg-transparent p-4 rounded-md shadow-xl border-2 border-blue-500 opacity-0"
-          >
-            <svg
-              viewBox="0 0 24 24"
-              width="40"
-              height="40"
-              stroke="#2563eb"
-              stroke-width="1"
-              fill="none"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="css-i6dzq1 mb-4"
-            >
-              <line x1="12" y1="1" x2="12" y2="23"></line>
-              <path
-                d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"
-              ></path>
-            </svg>
-
-            <h2 class="text-lg font-bold mb-4">Efisiensi Biaya</h2>
-            <p class="text-sm lg:text-base">
-              Mengurangi biaya administrasi dengan meningkatkan efisiensi
-              operasional.
-            </p>
-          </div>
-          <div
-            class="bg-transparent p-4 rounded-md shadow-xl border-2 border-blue-500 opacity-0"
-          >
-            <svg
-              viewBox="0 0 24 24"
-              width="40"
-              height="40"
-              stroke="#2563eb"
-              stroke-width="1"
-              fill="none"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="css-i6dzq1 mb-4"
-            >
-              <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
-              <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path>
-              <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
-            </svg>
-
-            <h2 class="text-lg font-bold mb-4">Integrasi Data Terpusat</h2>
-            <p class="text-sm lg:text-base">
-              Data kehadiran terintegrasi secara sempurna untuk pengambilan
-              keputusan yang lebih baik.
-            </p>
-          </div>
+              <h2 class="text-lg font-bold mb-4" x-text="kelebihan.title"></h2>
+              <p
+                class="text-sm lg:text-base"
+                x-text="kelebihan.description"
+              ></p>
+            </div>
+          </template>
         </div>
       </div>
     </section>
@@ -780,15 +695,19 @@
           ],
           currentPoint: 0,
           startRotatePoints: false,
+          intervalId: null,
 
           get currentImage() {
             return this.images[this.currentPoint];
           },
 
           rotatePoints() {
-            setInterval(() => {
-              this.currentPoint = (this.currentPoint + 1) % this.points.length;
-            }, 5000);
+            if (this.intervalId === null) {
+              this.intervalId = setInterval(() => {
+                this.currentPoint =
+                  (this.currentPoint + 1) % this.points.length;
+              }, 5000);
+            }
           },
 
           setupIntersectionObserver() {
@@ -832,11 +751,37 @@
         };
       }
 
-      function kelebihanAnimation() {
+      function kelebihanDataAndAnimation() {
         return {
           init() {
             this.setupIntersectionObserver();
           },
+          kelebihanPoints: [
+            {
+              title: "Responsif dan Mudah Diakses",
+              description:
+                "Aplikasi responsif untuk penggunaan yang lancar dari desktop hingga mobile.",
+              icon: "responsive.svg",
+            },
+            {
+              title: "Layout yang Ramah Pengguna",
+              description:
+                "Antarmuka intuitif memudahkan pengelolaan kehadiran karyawan.",
+              icon: "user-friendly.svg",
+            },
+            {
+              title: "Efisiensi Biaya",
+              description:
+                "Mengurangi biaya administrasi dengan meningkatkan efisiensi operasional.",
+              icon: "cost-efficiency.svg",
+            },
+            {
+              title: "Integrasi Data Terpusat",
+              description:
+                "Data kehadiran terintegrasi secara sempurna untuk pengambilan keputusan yang lebih baik.",
+              icon: "data-integrated.svg",
+            },
+          ],
           setupIntersectionObserver() {
             const options = {
               root: null,
