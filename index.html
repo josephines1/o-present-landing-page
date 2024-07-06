@@ -369,8 +369,8 @@
     <section
       id="fitur"
       class="flex flex-col items-center justify-center"
-      x-data="fiturData()"
-      @scroll.window="checkVisibility"
+      x-data="fiturDataAndAnimation()"
+      x-init="init()"
     >
       <div
         class="container px-4 flex items-center py-24 justify-between space-x-0 flex-col-reverse md:space-x-5 lg:flex-row"
@@ -400,7 +400,7 @@
                   ></div>
                   <div
                     class="loader"
-                    :class="{'hidden': currentPoint !== index, 'animate-loader': startLoading && currentPoint === index}"
+                    :class="{'hidden': currentPoint !== index, 'animate-loader': startRotatePoints && currentPoint === index}"
                   ></div>
                 </div>
                 <div>
@@ -416,8 +416,8 @@
             :key="currentPoint"
             :src="currentImage"
             alt="Illustration"
-            class="fitur-img w-auto h-80 object-cover mx-auto"
-            :class="{'animate-zoomIn': startLoading}"
+            class="fitur-img w-auto h-80 object-cover mx-auto scale-0"
+            :class="{'animate-zoomIn': startRotatePoints}"
           />
         </div>
       </div>
@@ -442,7 +442,9 @@
           class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-12"
           x-ref="kelebihanPointText"
         >
-          <div class="bg-blue-100 p-4 rounded-lg shadow-lg opacity-0">
+          <div
+            class="bg-transparent p-4 rounded-md shadow-xl border-2 border-blue-500 opacity-0"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 64 64"
@@ -470,7 +472,9 @@
               hingga mobile.
             </p>
           </div>
-          <div class="bg-blue-100 p-4 rounded-lg shadow-lg opacity-0">
+          <div
+            class="bg-transparent p-4 rounded-md shadow-xl border-2 border-blue-500 opacity-0"
+          >
             <svg
               viewBox="0 0 24 24"
               width="40"
@@ -492,7 +496,9 @@
               Antarmuka intuitif memudahkan pengelolaan kehadiran karyawan.
             </p>
           </div>
-          <div class="bg-blue-100 p-4 rounded-lg shadow-lg opacity-0">
+          <div
+            class="bg-transparent p-4 rounded-md shadow-xl border-2 border-blue-500 opacity-0"
+          >
             <svg
               viewBox="0 0 24 24"
               width="40"
@@ -516,7 +522,9 @@
               operasional.
             </p>
           </div>
-          <div class="bg-blue-100 p-4 rounded-lg shadow-lg opacity-0">
+          <div
+            class="bg-transparent p-4 rounded-md shadow-xl border-2 border-blue-500 opacity-0"
+          >
             <svg
               viewBox="0 0 24 24"
               width="40"
@@ -545,7 +553,9 @@
 
     <!-- Closure -->
     <section id="closure" x-data="closureAnimation()" x-init="init()">
-      <div class="container py-24 px-4 mx-auto bg-blue-50 rounded-xl w-[95%]">
+      <div
+        class="container py-16 lg:py-24 px-4 mx-auto bg-blue-50 rounded-xl w-[95%]"
+      >
         <p
           class="w-fit mx-auto relative md:text-sm text-xs after:content-[''] after:absolute after:h-1/2 after:bg-blue-300 after:bottom-0 after:w-full after:left-0 after:-z-10 z-10 md:font-medium font-normal opacity-0"
           x-ref="closureSmallTitleText"
@@ -595,14 +605,19 @@
       <div
         class="container py-12 px-4 mx-auto flex items-center justify-between flex-col sm:flex-row space-y-5 sm:space-y-0"
       >
-        <div class="logo flex items-center space-x-2">
-          <img
-            src="./assets/img/logo.png"
-            alt="O-Present"
-            width="50"
-            height="50"
-          />
-          <a href="." class="font-semibold text-lg text-blue-900">O-Present</a>
+        <div class="logo">
+          <a
+            href="."
+            class="font-semibold text-lg text-blue-900 flex items-center space-x-2"
+          >
+            <img
+              src="./assets/img/logo.png"
+              alt="O-Present"
+              width="50"
+              height="50"
+            />
+            <span>O-Present</span></a
+          >
         </div>
         <div class="cta flex items-center space-x-2">
           <a
@@ -707,8 +722,12 @@
             observer.observe(this.$el);
           },
           animateElements() {
-            // Animasi untuk "Tentang" dan paragraf (fadeInUp)
-            this.$refs.tentangSmallTitleText.classList.add("animate-fadeInUp");
+            // Animasi untuk Small Title (fadeInDown)
+            this.$refs.tentangSmallTitleText.classList.add(
+              "animate-fadeInDown"
+            );
+
+            // Animasi untuk Paragraf (fadeInUp)
             this.$refs.tentangParagrafText.classList.add("animate-fadeInUp");
 
             // Animasi typewriter untuk Solusi Presensi Modern
@@ -731,8 +750,12 @@
         };
       }
 
-      function fiturData() {
+      function fiturDataAndAnimation() {
         return {
+          init() {
+            this.setupIntersectionObserver();
+          },
+
           points: [
             {
               title: "Berbasis GPS",
@@ -756,43 +779,18 @@
             "./assets/img/fitur/fitur_excel.svg",
           ],
           currentPoint: 0,
-          intervalId: null,
-          startLoading: false,
+          startRotatePoints: false,
 
           get currentImage() {
             return this.images[this.currentPoint];
           },
 
-          checkVisibility() {
-            const section = document.getElementById("fitur");
-            const rect = section.getBoundingClientRect();
-            if (rect.top < window.innerHeight && rect.bottom >= 0) {
-              if (!this.startLoading) {
-                this.startLoading = true;
-                this.startAnimation();
-              }
-            } else {
-              this.stopAnimation();
-              this.startLoading = false;
-            }
-          },
-
-          startAnimation() {
-            this.intervalId = setInterval(() => {
+          rotatePoints() {
+            setInterval(() => {
               this.currentPoint = (this.currentPoint + 1) % this.points.length;
             }, 5000);
           },
 
-          stopAnimation() {
-            if (this.intervalId) {
-              clearInterval(this.intervalId);
-              this.intervalId = null;
-            }
-          },
-
-          init() {
-            this.setupIntersectionObserver();
-          },
           setupIntersectionObserver() {
             const options = {
               root: null,
@@ -803,6 +801,11 @@
             const observer = new IntersectionObserver((entries, observer) => {
               entries.forEach((entry) => {
                 if (entry.isIntersecting) {
+                  // Rotate points
+                  this.startRotatePoints = true;
+                  this.rotatePoints();
+
+                  // Animasi untuk elemen text
                   this.animateElements();
                   observer.disconnect();
                 }
@@ -811,17 +814,18 @@
 
             observer.observe(this.$el);
           },
+
           animateElements() {
             const fiturPointText = this.$refs.fiturPointText;
 
-            // Animasi untuk "Tentang" dan paragraf (fadeInUp)
-            this.$refs.fiturSmallTitleText.classList.add("animate-fadeInUp");
-            this.$refs.fiturTitleText.classList.add("animate-fadeInUp");
+            // Animasi untuk Small Title dan Title (fadeInDown)
+            this.$refs.fiturSmallTitleText.classList.add("animate-fadeInDown");
+            this.$refs.fiturTitleText.classList.add("animate-fadeInDown");
 
-            // Animasi untuk fiturPointText
+            // Animasi untuk fiturPointText (fadeInUp)
             Array.from(fiturPointText.children).forEach((element, index) => {
               setTimeout(() => {
-                element.classList.add("animate-fadeInDown");
+                element.classList.add("animate-fadeInUp");
               }, index * 100);
             });
           },
@@ -854,17 +858,17 @@
           animateElements() {
             const kelebihanPointText = this.$refs.kelebihanPointText;
 
-            // Animasi untuk Small Title dan Title (fadeInUp)
+            // Animasi untuk Small Title dan Title (fadeInDown)
             this.$refs.kelebihanSmallTitleText.classList.add(
-              "animate-fadeInUp"
+              "animate-fadeInDown"
             );
-            this.$refs.kelebihanTitleText.classList.add("animate-fadeInUp");
+            this.$refs.kelebihanTitleText.classList.add("animate-fadeInDown");
 
-            // Animasi untuk kelebihanPointText (fadeInDown)
+            // Animasi untuk kelebihanPointText (fadeInUp)
             Array.from(kelebihanPointText.children).forEach(
               (element, index) => {
                 setTimeout(() => {
-                  element.classList.add("animate-fadeInDown");
+                  element.classList.add("animate-fadeInUp");
                 }, index * 300);
               }
             );
@@ -896,10 +900,15 @@
             observer.observe(this.$el);
           },
           animateElements() {
-            this.$refs.closureSmallTitleText.classList.add("animate-fadeInUp");
-            this.$refs.closureTitleText.classList.add("animate-fadeInUp");
-            this.$refs.closureParagrafText.classList.add("animate-fadeInUp");
-            this.$refs.closureCta.classList.add("animate-fadeInDown");
+            // Animasi untuk Small Title, Title, dan Paragraf (fadeInDown)
+            this.$refs.closureSmallTitleText.classList.add(
+              "animate-fadeInDown"
+            );
+            this.$refs.closureTitleText.classList.add("animate-fadeInDown");
+            this.$refs.closureParagrafText.classList.add("animate-fadeInDown");
+
+            // Animasi untuk CTA Button (fadeInUp)
+            this.$refs.closureCta.classList.add("animate-fadeInUp");
           },
         };
       }
